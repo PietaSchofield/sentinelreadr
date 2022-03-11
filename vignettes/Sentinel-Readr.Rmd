@@ -1,6 +1,6 @@
 ---
 title: "Sentinel-Readr"
-author: "Vignette Author"
+author: "Pieta Schofield"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
@@ -29,6 +29,7 @@ This is a small package that simplifies the extraction of the data that is store
 
 ```{r read_file}
 input_filename <- system.file("extdata","2013_B_07-01-2021_13-49-43.RSNTL",package="sentinelreadr")
+input_filename
 xml <- read_rsntl(input_filename)
 data <- lapply(xml$clinical_data,clinical_xml_to_table)
 summary(data)
