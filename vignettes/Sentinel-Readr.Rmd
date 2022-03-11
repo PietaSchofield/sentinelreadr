@@ -1,10 +1,10 @@
 ---
-title: "Sentinel-Readr"
+title: "SentinelReadr"
 author: "Pieta Schofield"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Sentinel-Readr}
+  %\VignetteIndexEntry{SentinelReadr}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
