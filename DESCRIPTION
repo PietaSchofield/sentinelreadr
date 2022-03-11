@@ -13,4 +13,13 @@ Import:
     XML
     Tidyverse
     stringr
+    tibble
     data.table
+    tidyfst
+    knitr
+    VignetteBuilder
+RoxygenNote: 7.1.2
+Suggests: 
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr

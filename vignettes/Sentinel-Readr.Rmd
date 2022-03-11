@@ -1,0 +1,55 @@
+---
+title: "Sentinel-Readr"
+author: "Vignette Author"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Sentinel-Readr}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup,results="hide"}
+library(sentinelreadr)
+```
+
+# Introduction
+
+This is a small package that simplifies the extraction of the data that is stored in xml inside RSNTL file. At the present there are two main function
+
+- read_rsntl() which extract the xml elements from the RSNTL file and creates a list of xml documents
+- clinical_xml_to_table() that converts the clinical data elements into data.tables
+
+```{r read_file}
+input_filename <- system.file("extdata","2013_B_07-01-2021_13-49-43.RSNTL",package="sentinelreadr")
+xml <- read_rsntl(input_filename)
+data <- lapply(xml$clinical_data,clinical_xml_to_table)
+summary(data)
+```
+
+The summary shows that there are two datasets in this file
+
+```{r display-tables1}
+DT::datatable(data[[1]])
+```
+
+However it appears they are the same data
+
+```{r display-table2}
+DT::datatable(data[[2]])
+```
+
+This data is plotable
+
+```{r plot,fig.with=12}
+library(ggplot2)
+gg <- ggplot(data[[2]],aes(x=Time,y=Systolic)) + geom_point(colour="blue") 
+plot(gg)
+```
