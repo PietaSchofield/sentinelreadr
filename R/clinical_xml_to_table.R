@@ -6,9 +6,10 @@
 #' ammending it. The dataitems and parentlevel parameters are an attempt to make this flexible but
 #' possibly will not be sufficient.
 #'
-#' @param xmlData this is the clinical_data list element produced from the read_rsntl() function
-#' @param dataitems this is a vector of items that are wanted the default
-#' @param parentlevel this is the common parent level in the xml below which the dataitems are located
+#' @param xml_data this is the clinical_data list element produced from the read_rsntl() function
+#' @param data_items this is a vector of items that are wanted the default
+#' @param data_types this is a vector of data types for items that are wanted
+#' @param parent_level this is the common parent level in the xml below which the dataitems are located
 #'
 #' @return A data.table with the columns representing the data items
 #' @importFrom magrittr %>%
@@ -19,24 +20,14 @@
 #'
 #' @export
 #'
-clinical_xml_to_table <- function(xmlData,
+clinical_xml_to_table <- function(xml_data,
   data_items=c("Time/Day","Time/Hour","Time/Minute","Time/Second","ReadingStatus",
                "ErrorStatus","Systolic","Diastolic","MeanArterialPressure","HeartRate",
                "PulsePressure","CoefficientOfVariability","DiaryEventAnnotation","Excluded"),
   data_types=c("i","i","i","i","c","c","i","i","i","i","i","i","c","c"),
   parent_level="//Measurements/Measurement/"){
-  res <- list()
-  for(iwk in seq(1,length(data_items))){
-    path=paste0(parent_level,data_items[iwk])
-    vec <- XML::xpathSApply(doc=xmlData,path=path,XML::xmlValue)
-    if(data_types[iwk]!="c"){
-      vec <- as.numeric(vec)
-    }
-    res[[data_items[[iwk]]]] <- vec
-  }
-  tab <- tibble::as_tibble(res)
+  tab <- xml_to_table(xmlData=xml_data,dataItems=data_items,dataTypes=data_types,parentLevel=parent_level)
   colnames(tab) <- gsub("/","_",colnames(tab))
   tab <- tab %>% mutate(Time=(24*60*60*Time_Day)+(60*60*Time_Hour)+(60*Time_Minute)+Time_Second)
   return(tab)
-  tab
 }

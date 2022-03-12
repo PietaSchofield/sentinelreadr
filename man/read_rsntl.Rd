@@ -4,10 +4,24 @@
 \alias{read_rsntl}
 \title{read_rsntl}
 \usage{
-read_rsntl(filename)
+read_rsntl(
+  filename,
+  chkDMV = F,
+  version = "9",
+  showWarning = T,
+  stopOnWrongVersion = T
+)
 }
 \arguments{
-\item{filename}{}
+\item{filename}{file name of the RSNTL file}
+
+\item{chkDMV}{check data model version}
+
+\item{version}{expected Data Model Version currently defaults to "9" (character)}
+
+\item{showWarning}{warn if Data Model version mismatch}
+
+\item{stopOnWrongVersion}{stop if Data Model version mismatch}
 }
 \value{
 a list of xml elements for each xml sections of the file
@@ -25,7 +39,7 @@ a list of xml elements for each xml sections of the file
 where there are multiple xml elements in a section this will be a list of of list
 }
 \description{
-read a sentinel file extract the xml sections from the binary file size data
+read a sentinel file extract the xml sections from the binary file size data. The test type clinical data tag is #' an item in the PackageTestDetails <TestTypeName> so it could also be possible to check that the file holds the #' #' write test type
 }
 \examples{
 xml_data <- read_rsntl(system.file("extdata","2013_B_07-01-2021_13-49-43.RSNTL",package="sentinelreadr"))

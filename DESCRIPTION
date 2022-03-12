@@ -10,7 +10,7 @@ License: GGL
 Encoding: UTF-8
 LazyData: true
 Import:
-    XML
+    xml2 
     Tidyverse
     stringr
     tibble

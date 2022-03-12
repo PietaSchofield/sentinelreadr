@@ -5,7 +5,7 @@
 \title{clinical_xml_to_table}
 \usage{
 clinical_xml_to_table(
-  xmlData,
+  xml_data,
   data_items = c("Time/Day", "Time/Hour", "Time/Minute", "Time/Second",
     "ReadingStatus", "ErrorStatus", "Systolic", "Diastolic", "MeanArterialPressure",
     "HeartRate", "PulsePressure", "CoefficientOfVariability", "DiaryEventAnnotation",
@@ -15,11 +15,13 @@ clinical_xml_to_table(
 )
 }
 \arguments{
-\item{xmlData}{this is the clinical_data list element produced from the read_rsntl() function}
+\item{xml_data}{this is the clinical_data list element produced from the read_rsntl() function}
 
-\item{dataitems}{this is a vector of items that are wanted the default}
+\item{data_items}{this is a vector of items that are wanted the default}
 
-\item{parentlevel}{this is the common parent level in the xml below which the dataitems are located}
+\item{data_types}{this is a vector of data types for items that are wanted}
+
+\item{parent_level}{this is the common parent level in the xml below which the dataitems are located}
 }
 \value{
 A data.table with the columns representing the data items

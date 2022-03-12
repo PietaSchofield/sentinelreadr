@@ -29,15 +29,20 @@ This is a small package that simplifies the extraction of the data that is store
 
 ```{r read_file}
 input_filename <- system.file("extdata","2013_B_07-01-2021_13-49-43.RSNTL",package="sentinelreadr")
-input_filename
-xml <- read_rsntl(input_filename)
-data <- lapply(xml$clinical_data,clinical_xml_to_table)
-summary(data)
+xml <- read_rsntl(input_filename,chkDMV=T)
+```
+
+The test data section can be decoded to a tibble
+
+```{r get-testdetails}
+patient <- lapply(xml$test_details,testdetails_xml_to_table)
+DT::datatable(patient[[1]])
 ```
 
 The summary shows that there are two datasets in this file
 
 ```{r display-tables1}
+data <- lapply(xml$clinical_data,clinical_xml_to_table)
 DT::datatable(data[[1]])
 ```
 
