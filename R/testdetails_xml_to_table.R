@@ -5,6 +5,9 @@
 #' @param xmlData the xml data to parse
 #'
 #' @importFrom dplyr filter bind_rows
+#' @importFrom xml2 xml_text xml_name xml_child xml_children
+#' @importFrom magrittr %>%
+#' @importFrom tibble as_tibble
 #'
 #' @export
 testdetails_xml_to_table <- function(xmlData){
