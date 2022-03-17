@@ -14,7 +14,7 @@ If you install with build_vignettes=T it will build a vignette with an example o
 
 ```
 install.packages("remotes")
-remotes::install_github("PietaSchofield/sentinelreadr, build_vignettes=T")
+remotes::install_github("PietaSchofield/sentinelreadr", build_vignettes=T)
 library(sentinelreadr)
 vignette("Sentinel-Readr")
 ```
