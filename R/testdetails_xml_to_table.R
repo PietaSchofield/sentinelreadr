@@ -14,11 +14,18 @@ testdetails_xml_to_table <- function(xmlData){
       values = xml2::xml_text(xml2::xml_children(xml2::xml_child(x=xmlData,"Patient")))
     )
   )
+  staff_node <- xml2::xml_child(xmlData,"StaffMembers")
+  staff <- tibble::as_tibble(
+    list(
+      itemname = paste("StaffMember", xml2::xml_name(xml2::xml_children(xml2::xml_children(staff_node)))),
+      values = xml2::xml_text(xml2::xml_children(xml2::xml_children(staff_node)))
+    )
+  )
+  facilities_node <- xml2::xml_child(xmlData,"Facilities")
   facilities <- tibble::as_tibble(
     list(
-      itemname = paste("Facilities",
-        xml2::xml_name(xml2::xml_children(xml2::xml_children(xml2::xml_child(xmlData,"Facilities"))))),
-      values = xml2::xml_name(xml2::xml_children(xml2::xml_children(xml2::xml_child(xmlData,"Facilities"))))
+      itemname = paste("Practice", xml2::xml_name(xml2::xml_children(xml2::xml_children(facilities_node)))),
+      values = xml2::xml_text(xml2::xml_children(xml2::xml_children(facilities_node)))
     )
   )
   recorder <- tibble::as_tibble(
@@ -33,6 +40,6 @@ testdetails_xml_to_table <- function(xmlData){
       values = xml2::xml_text(xml2::xml_children(x=xmlData))
     )
   )
-  other <- other %>% dplyr::filter(!itemname%in%c("Patient","Facilities","RecorderDetails"))
-  dplyr::bind_rows(patient,facilities,recorder,other)
+  other <- other %>% dplyr::filter(!itemname%in%c("Patient","StaffMembers","Facilities","RecorderDetails"))
+  dplyr::bind_rows(patient,staff,facilities,recorder,other)
 }
