@@ -59,3 +59,20 @@ library(ggplot2)
 gg <- ggplot(data[[2]],aes(x=Time,y=Systolic)) + geom_point(colour="blue") 
 plot(gg)
 ```
+
+```{r test-other-files}
+input_filename <- system.file("extdata","2014_B_07-01-2021_13-49-44.RSNTL",package="sentinelreadr")
+xml <- read_rsntl(input_filename,chkDMV=T)
+patient <- lapply(xml$test_details,testdetails_xml_to_table)
+DT::datatable(patient[[1]])
+data <- lapply(xml$clinical_data,clinical_xml_to_table)
+DT::datatable(data[[1]])
+
+
+input_filename <- system.file("extdata","2011_B_07-01-2021_13-49-41.RSNTL",package="sentinelreadr")
+xml <- read_rsntl(input_filename,chkDMV=T)
+patient <- lapply(xml$test_details,testdetails_xml_to_table)
+DT::datatable(patient[[1]])
+data <- lapply(xml$clinical_data,clinical_xml_to_table)
+DT::datatable(data[[1]])
+```
