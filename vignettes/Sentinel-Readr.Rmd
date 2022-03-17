@@ -17,14 +17,16 @@ knitr::opts_chunk$set(
 ```
 
 ```{r setup,results="hide"}
+library(tidyverse)
 library(sentinelreadr)
 ```
 
 # Introduction
 
-This is a small package that simplifies the extraction of the data that is stored in xml inside RSNTL file. At the present there are two main function
+This is a small package that simplifies the extraction of the data that is stored in xml inside RSNTL file. At the present there are three main function
 
 - read_rsntl() which extract the xml elements from the RSNTL file and creates a list of xml documents
+- testdetails_xml_to_table() coverts the testdetails section of the file into a data.table
 - clinical_xml_to_table() that converts the clinical data elements into data.tables
 
 ```{r read_file}
@@ -32,7 +34,14 @@ input_filename <- system.file("extdata","2013_B_07-01-2021_13-49-43.RSNTL",packa
 xml <- read_rsntl(input_filename,chkDMV=T)
 ```
 
-The test data section can be decoded to a tibble
+The test data section can be decoded to a tibble. Because the xml object returned buy the read_rstnl() 
+funtion is a list of lists it is best to use the lapply function to the various items in the xml object
+
+```{r xml-object}
+is(xml)
+summary(xml)
+lapply(xml,is)
+```
 
 ```{r get-testdetails}
 patient <- lapply(xml$test_details,testdetails_xml_to_table)
@@ -60,19 +69,44 @@ gg <- ggplot(data[[2]],aes(x=Time,y=Systolic)) + geom_point(colour="blue")
 plot(gg)
 ```
 
+Reading the other files
+
 ```{r test-other-files}
 input_filename <- system.file("extdata","2014_B_07-01-2021_13-49-44.RSNTL",package="sentinelreadr")
 xml <- read_rsntl(input_filename,chkDMV=T)
+```
+
+Get test details
+
+```{r test-details-2}
 patient <- lapply(xml$test_details,testdetails_xml_to_table)
 DT::datatable(patient[[1]])
+```
+
+Get data details
+
+```{r data-details-2}
 data <- lapply(xml$clinical_data,clinical_xml_to_table)
 DT::datatable(data[[1]])
+```
 
+Read file 3
 
+```{r read-file-3}
 input_filename <- system.file("extdata","2011_B_07-01-2021_13-49-41.RSNTL",package="sentinelreadr")
 xml <- read_rsntl(input_filename,chkDMV=T)
+```
+
+Get test details file 3
+
+```{r test-details-3}
 patient <- lapply(xml$test_details,testdetails_xml_to_table)
 DT::datatable(patient[[1]])
+```
+
+Get data details 3
+
+```{r data-details-3}
 data <- lapply(xml$clinical_data,clinical_xml_to_table)
 DT::datatable(data[[1]])
 ```
