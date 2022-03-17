@@ -18,4 +18,3 @@ remotes::install_github("PietaSchofield/sentinelreadr", build_vignettes=T)
 library(sentinelreadr)
 vignette("Sentinel-Readr")
 ```
-
