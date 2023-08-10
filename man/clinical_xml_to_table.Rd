@@ -6,10 +6,9 @@
 \usage{
 clinical_xml_to_table(
   xml_data,
-  data_items = c("Time/Day", "Time/Hour", "Time/Minute", "Time/Second",
-    "ReadingStatus", "ErrorStatus", "Systolic", "Diastolic", "MeanArterialPressure",
-    "HeartRate", "PulsePressure", "CoefficientOfVariability", "DiaryEventAnnotation",
-    "Excluded"),
+  data_items = c("Time/Day", "Time/Hour", "Time/Minute", "Time/Second", "ReadingStatus",
+    "ErrorStatus", "Systolic", "Diastolic", "MeanArterialPressure", "HeartRate",
+    "PulsePressure", "CoefficientOfVariability", "DiaryEventAnnotation", "Excluded"),
   data_types = c("i", "i", "i", "i", "c", "c", "i", "i", "i", "i", "i", "i", "c", "c"),
   parent_level = "//Measurements/Measurement/"
 )

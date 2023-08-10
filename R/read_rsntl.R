@@ -41,9 +41,21 @@ read_rsntl <- function(filename,chkDMV=F,version="9",showWarning=T,stopOnWrongVe
     clinical_data=c(stag="<ABP xmlns",etag="</ABP>"),
     report=c(stag="<Report xmlns",etag="</Report>")
   )
-
-  res <- lapply(tags,ext_xml_section,file_text)
-
+  
+  tryCatch(
+    {
+      res <- lapply(tags,ext_xml_section,file_text)
+    },
+    error=function(e){
+      message(paste0(filename," Error:"))
+      print(e)
+    },
+    warning=function(w){
+      message(paste0(filename," Warning:"))
+      print(w)
+    }
+  )
+  
   if(chkDMV){
     data_model <- get_data_model_version(res$metadata)
     if(data_model!=version){
