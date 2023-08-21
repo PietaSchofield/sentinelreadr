@@ -1,6 +1,6 @@
 # sentinelreadr
 
-This is a currently a very simple package with few functions to enable the extraction of xml data embedded in RSNTL file which are files with a mix of binary metadata and plain ascii text xml. 
+This currently is a very simple package with few functions to enable the extraction of xml data embedded in RSNTL file which are files with a mix of binary metadata and plain ascii text xml. 
 
 # Installation
 
