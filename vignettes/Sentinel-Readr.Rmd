@@ -122,6 +122,6 @@ xml <- read_rsntl(input_filename,chkDMV=T)
 
 ```{r test-other-files}
 input_filename <- system.file("extdata","2014_B_07-01-2021_error_2.RSNTL",package="sentinelreadr")
-xml <- read_rsntl(input_filename,chkDMV=F)
+xml <- read_rsntl(input_filename,chkDMV=T)
 ```
 
