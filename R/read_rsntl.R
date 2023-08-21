@@ -45,39 +45,68 @@ read_rsntl <- function(filename,chkDMV=F,version="9",showWarning=T,stopOnWrongVe
   tryCatch(
     {
       res <- lapply(tags,ext_xml_section,file_text)
+      if(chkDMV){
+        data_model <- get_data_model_version(res$metadata)
+        if(data_model!=version){
+          if(showWarning){
+            print(paste("Warning: Expected data model version",version,
+                        "this file contains data model version ",data_model))
+          }
+          if(stopOnWrongVersion){
+            stop()
+          }
+        }
+      }
+      return(res)
     },
     error=function(e){
-      message(paste0(filename," Error:"))
-      print(e)
+      message(paste0(filename," Error: ",print(e)))
+      res <- list()
+      return(res)
     },
     warning=function(w){
-      message(paste0(filename," Warning:"))
-      print(w)
+      message(paste0(filename," Warning: ",print(w)))
+      res <- list()
+      return(res)
     }
   )
-  
-  if(chkDMV){
-    data_model <- get_data_model_version(res$metadata)
-    if(data_model!=version){
-      if(showWarning){
-        print(paste("Warning: Expected data model version",version,
-              "this file contains data model version ",data_model))
-      }
-      if(stopOnWrongVersion){
-        stop()
-      }
-    }
-  }
-  return(res)
 }
 
 ext_xml_section <- function(tag,fulltext){
-  slocs <- stringr::str_locate_all(fulltext,pattern=tag["stag"])[[1]][,"start"]
-  elocs <- stringr::str_locate_all(fulltext,pattern=tag["etag"])[[1]][,"end"]
-  locs <- cbind(start_tag=slocs,end_tag=elocs)
-  pos <- apply(locs,1,function(tag){
-    xml2::read_xml(stringr::str_sub(fulltext,tag["start_tag"],tag["end_tag"]))
-  })
+  err=T
+  tryCatch(
+    {
+      slocs <- stringr::str_locate_all(fulltext,pattern=tag["stag"])[[1]][,"start"]
+      err=F
+    },
+    error=function(e){
+      message(paste0("Error: No ",tag["etag"]))
+    },
+    warning=function(w){
+      message(paste0("Warning: Problem ",tag["etag"])) 
+    }
+  )
+  tryCatch(
+    {
+      elocs <- stringr::str_locate_all(fulltext,pattern=tag["etag"])[[1]][,"end"]
+      err=F
+    },
+    error=function(e){
+      message(paste0("Error: No ",tag["etag"]))
+      err=T
+    },
+    warning=function(w){
+      message(paste0("Warning: Problem ",tag["etag"])) 
+    }
+  )
+  if(!err){
+    locs <- cbind(start_tag=slocs,end_tag=elocs)
+    pos <- apply(locs,1,function(tag){
+      xml2::read_xml(stringr::str_sub(fulltext,tag["start_tag"],tag["end_tag"]))
+    })
+  }else{
+    pos <- c()
+  }
   unname(pos)
 }
 
