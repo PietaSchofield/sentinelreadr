@@ -6,11 +6,11 @@ Author: Pieta Schofield
 Maintainer: Pieta Schofield <pieta.schofield@me.com>
 Description: This package is intended to assist with the importation of data from the mixed
     binary and xml format files produced by the Sentinel ambulatory heart monitor
-License: GGL
+License: CCL
 Encoding: UTF-8
 LazyData: true
 Import:
-    xml2 
+    xml2
     Tidyverse
     stringr
     tibble
@@ -19,7 +19,7 @@ Import:
     knitr
     VignetteBuilder
 RoxygenNote: 7.2.3
-Suggests: 
+Suggests:
     knitr,
     rmarkdown
 VignetteBuilder: knitr
