@@ -2,6 +2,9 @@
 
 export(clinical_xml_to_table)
 export(get_data_model_version)
+export(process_file_clinical_details)
+export(process_file_patient_details)
+export(process_files)
 export(read_rsntl)
 export(testdetails_xml_to_table)
 export(xml_to_table)

@@ -4,13 +4,7 @@
 \alias{read_rsntl}
 \title{read_rsntl}
 \usage{
-read_rsntl(
-  filename,
-  chkDMV = F,
-  version = "9",
-  showWarning = T,
-  stopOnWrongVersion = T
-)
+read_rsntl(filename, chkDMV = F, version = "9", stopOnWrongVersion = T, db = F)
 }
 \arguments{
 \item{filename}{file name of the RSNTL file}
@@ -19,9 +13,9 @@ read_rsntl(
 
 \item{version}{expected Data Model Version currently defaults to "9" (character)}
 
-\item{showWarning}{warn if Data Model version mismatch}
-
 \item{stopOnWrongVersion}{stop if Data Model version mismatch}
+
+\item{showWarning}{warn if Data Model version mismatch}
 }
 \value{
 a list of xml elements for each xml sections of the file

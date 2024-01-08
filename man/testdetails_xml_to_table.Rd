@@ -4,7 +4,7 @@
 \alias{testdetails_xml_to_table}
 \title{patient test details to table}
 \usage{
-testdetails_xml_to_table(xmlData)
+testdetails_xml_to_table(xmlData, trans = F)
 }
 \arguments{
 \item{xmlData}{the xml data to parse}

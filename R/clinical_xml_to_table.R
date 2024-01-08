@@ -21,13 +21,15 @@
 #' @export
 #'
 clinical_xml_to_table <- function(xml_data,
-  data_items=c("Time/Day","Time/Hour","Time/Minute","Time/Second","ReadingStatus",
+    data_items=c("Time/Day","Time/Hour","Time/Minute","Time/Second","ReadingStatus",
                "ErrorStatus","Systolic","Diastolic","MeanArterialPressure","HeartRate",
                "PulsePressure","CoefficientOfVariability","DiaryEventAnnotation","Excluded"),
-  data_types=c("i","i","i","i","c","c","i","i","i","i","i","i","c","c"),
-  parent_level="//Measurements/Measurement/"){
+    data_types=c("i","i","i","i","c","c","i","i","i","i","i","i","c","c"),
+    parent_level="//Measurements/Measurement/"){
+
   tab <- xml_to_table(xmlData=xml_data,dataItems=data_items,dataTypes=data_types,parentLevel=parent_level)
   colnames(tab) <- gsub("/","_",colnames(tab))
   tab <- tab %>% mutate(Time=(24*60*60*Time_Day)+(60*60*Time_Hour)+(60*Time_Minute)+Time_Second)
   return(tab)
+
 }

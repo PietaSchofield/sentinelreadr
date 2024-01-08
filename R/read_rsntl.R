@@ -26,7 +26,14 @@
 #' xml_data <- read_rsntl(system.file("extdata","2013_B_07-01-2021_13-49-43.RSNTL",package="sentinelreadr"))
 #'
 #' @export
-read_rsntl <- function(filename,chkDMV=F,version="9",showWarning=T,stopOnWrongVersion=T){
+read_rsntl <- function(filename,chkDMV=F,version="9",stopOnWrongVersion=T,db=F){
+  if(db){
+    chkDMV <- F
+    version <- "9"
+    stopOnWrongVersion <- F
+    n <- 5
+    filename <- files[n]
+  }
   fh <- file(filename,"rb")
   file_size <- file.info(filename)[,"size"]
   file_content <- readBin(fh,raw(),file_size)
@@ -42,37 +49,39 @@ read_rsntl <- function(filename,chkDMV=F,version="9",showWarning=T,stopOnWrongVe
     report=c(stag="<Report xmlns",etag="</Report>")
   )
   
+  res <- NULL
   tryCatch(
     {
       res <- lapply(tags,ext_xml_section,file_text)
-      if(chkDMV){
-        data_model <- get_data_model_version(res$metadata)
-        if(data_model!=version){
-          if(showWarning){
-            print(paste("Warning: Expected data model version",version,
+      if(!is.null(res$metadata)){
+        if(chkDMV){
+          data_model <- get_data_model_version(res$metadata)
+          if(data_model!=version){
+            logr::log_print(paste("Warning: Expected data model version",version,
                         "this file contains data model version ",data_model))
-          }
-          if(stopOnWrongVersion){
-            stop()
+            if(stopOnWrongVersion){
+              stop()
+            }
           }
         }
       }
-      return(res)
     },
     error=function(e){
-      message(paste0(filename," Error: ",print(e)))
-      res <- list()
-      return(res)
+      logr::log_print(paste0(filename," Error: ",print(e)))
     },
     warning=function(w){
-      message(paste0(filename," Warning: ",print(w)))
-      res <- list()
-      return(res)
+      logr::log_print(paste0(filename," Warning: ",print(w)))
     }
   )
+  return(res)
 }
 
-ext_xml_section <- function(tag,fulltext){
+ext_xml_section <- function(tag,fulltext,db=F){
+  if(db){
+    tn <- 2
+    tag <- tags[[tn]]
+    fulltext <- file_text
+  }
   err=T
   tryCatch(
     {
@@ -80,10 +89,10 @@ ext_xml_section <- function(tag,fulltext){
       err=F
     },
     error=function(e){
-      message(paste0("Error: No ",tag["etag"]))
+      logr::log_print(paste0("Error: No ",tag["etag"]))
     },
     warning=function(w){
-      message(paste0("Warning: Problem ",tag["etag"])) 
+      logr::log_print(paste0("Warning: Problem ",tag["etag"])) 
     }
   )
   tryCatch(
@@ -92,20 +101,29 @@ ext_xml_section <- function(tag,fulltext){
       err=F
     },
     error=function(e){
-      message(paste0("Error: No ",tag["etag"]))
+      logr::log_print(paste0("Error: No ",tag["etag"]))
       err=T
     },
     warning=function(w){
-      message(paste0("Warning: Problem ",tag["etag"])) 
+      logr::log_print(paste0("Warning: Problem ",tag["etag"])) 
     }
   )
+  pos <- c()
   if(!err){
     locs <- cbind(start_tag=slocs,end_tag=elocs)
-    pos <- apply(locs,1,function(tag){
-      xml2::read_xml(stringr::str_sub(fulltext,tag["start_tag"],tag["end_tag"]))
-    })
-  }else{
-    pos <- c()
+    tryCatch(
+      {
+        pos <- apply(locs,1,function(tag){
+          xml2::read_xml(stringr::str_sub(fulltext,tag["start_tag"],tag["end_tag"]))
+        })
+      },
+      error=function(e){
+        logr::log_print(paste0(filename," ",print(e)))
+      },
+      warning=function(w){
+        logr::log_print(paste0(filename," ",print(w)))
+      }
+    )
   }
   unname(pos)
 }

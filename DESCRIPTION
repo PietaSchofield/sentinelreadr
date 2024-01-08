@@ -14,9 +14,9 @@ Import:
     Tidyverse
     stringr
     tibble
-    data.table
     tidyfst
     knitr
+    logr
     VignetteBuilder
 RoxygenNote: 7.2.3
 Suggests:
