@@ -16,10 +16,10 @@ process_files <- function(directory,extention="RSNTL",pattablefile=NULL,restable
   files <- list.files(directory,pattern=paste0(".*",extention,"$"),full=T) 
   names(files) <- gsub(paste0("[.]",extention),"",basename(files))
   patdata <- lapply(files,process_file_patient_details) %>%
-    plyr::ldply() %>% tibble::tibble() %>% rename(filename=.id)
+    plyr::ldply() %>% tibble::tibble() %>% dplyr::rename(filename=.id)
   if(!is.null(pattablefile))  write_csv(patdata,file=pattablefile)
   resdata <- lapply(files,process_file_clinical_details) %>% 
-    plyr::ldply() %>% tibble::tibble() %>% rename(filename=.id)
+    plyr::ldply() %>% tibble::tibble() %>% dplyr::rename(filename=.id)
   if(!is.null(restablefile))  write_csv(resdata,file=restablefile)
   ret <- NULL
   if(db){
