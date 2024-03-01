@@ -11,7 +11,7 @@
 #' @param data_types this is a vector of data types for items that are wanted
 #' @param parent_level this is the common parent level in the xml below which the dataitems are located
 #'
-#' @return A data.table with the columns representing the data items
+#' @return A tibble with the columns representing the data items
 #' @importFrom magrittr %>%
 #' @importFrom dplyr mutate
 #' @examples
@@ -29,7 +29,7 @@ clinical_xml_to_table <- function(xml_data,
 
   tab <- xml_to_table(xmlData=xml_data,dataItems=data_items,dataTypes=data_types,parentLevel=parent_level)
   colnames(tab) <- gsub("/","_",colnames(tab))
-  tab <- tab %>% mutate(Time=(24*60*60*Time_Day)+(60*60*Time_Hour)+(60*Time_Minute)+Time_Second)
+  tab <- tab %>% dplyr::mutate(Time=(24*60*60*Time_Day)+(60*60*Time_Hour)+(60*Time_Minute)+Time_Second)
   return(tab)
 
 }

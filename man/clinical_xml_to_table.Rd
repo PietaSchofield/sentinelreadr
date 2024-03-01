@@ -23,7 +23,7 @@ clinical_xml_to_table(
 \item{parent_level}{this is the common parent level in the xml below which the dataitems are located}
 }
 \value{
-A data.table with the columns representing the data items
+A tibble with the columns representing the data items
 }
 \description{
 convert xml to a table

@@ -13,6 +13,20 @@ process_files(
   db = F
 )
 }
+\arguments{
+\item{directory}{full path to the directory containing RSNTL files}
+
+\item{extention}{the file extension of the sentinel files}
+
+\item{restablefile}{the full pathname of the csv file to take the clinical results values from the
+monitor}
+
+\item{silent}{(currently unused)}
+
+\item{db}{debug flag for development purpose return the data in a list if set to true}
+
+\item{pattabefile}{the full pathname of the csv file to take the patient data (1 record per patient)}
+}
 \description{
-Produce two files one with patient detail one with all test results
+Produce two files one with patient detail one with all test results from a directory of files
 }

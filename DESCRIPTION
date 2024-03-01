@@ -9,17 +9,19 @@ Description: This package is intended to assist with the importation of data fro
 License: CCL
 Encoding: UTF-8
 LazyData: true
-Import:
-    xml2
-    Tidyverse
-    stringr
-    tibble
-    tidyfst
-    knitr
-    logr
-    VignetteBuilder
-RoxygenNote: 7.3.1
-Suggests:
-    knitr,
-    rmarkdown
 VignetteBuilder: knitr
+Imports: 
+    data.table,
+    dplyr,
+    DT,
+    knitr,
+    logr,
+    magrittr,
+    plyr,
+    readr,
+    readxl,
+    rmarkdown,
+    stringr,
+    XML,
+    xml2
+RoxygenNote: 7.3.1

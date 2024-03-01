@@ -21,6 +21,8 @@
 #'  report = Report
 #'
 #' where there are multiple xml elements in a section this will be a list of of list
+#' @importFrom magrittr %>%
+#' @importFrom dplyr mutate
 #'
 #' @examples
 #' xml_data <- read_rsntl(system.file("extdata","2013_B_07-01-2021_13-49-43.RSNTL",package="sentinelreadr"))

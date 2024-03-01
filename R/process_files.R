@@ -1,7 +1,17 @@
 #' Process a directory of files
 #'
-#' Produce two files one with patient detail one with all test results
+#' Produce two files one with patient detail one with all test results from a directory of files
 #'
+#' @param directory full path to the directory containing RSNTL files
+#' @param extention the file extension of the sentinel files
+#' @param pattabefile the full pathname of the csv file to take the patient data (1 record per patient)
+#' @param restablefile the full pathname of the csv file to take the clinical results values from the
+#' monitor 
+#' @param silent (currently unused)
+#' @param db debug flag for development purpose return the data in a list if set to true
+#'
+#' @importFrom magrittr %>%
+#' @importFrom dplyr mutate
 #' @export
 process_files <- function(directory,extention="RSNTL",pattablefile=NULL,restablefile=NULL,silent=F,
                           db=F){
@@ -27,6 +37,14 @@ process_files <- function(directory,extention="RSNTL",pattablefile=NULL,restable
   }
 }
 
+#' process the patient details 
+#'
+#' process the patient details from an RSNTL file and return a single record
+#' 
+#' @param fn the filename
+#' @importFrom magrittr %>%
+#' @importFrom dplyr mutate
+#'
 #' @export
 process_file_patient_details <- function(fn,db=F){
   if(db){
@@ -44,6 +62,14 @@ process_file_patient_details <- function(fn,db=F){
   return(ret)
 }
 
+#' process the clinical details
+#'
+#' process the clinical details from an RSNTL file and return a record set 1 record per reading
+#' 
+#' @param fn the filename
+#' @importFrom magrittr %>%
+#' @importFrom dplyr mutate
+#'
 #' @export
 process_file_clinical_details <- function(fn,db=F){
   if(db){
