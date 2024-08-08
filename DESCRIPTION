@@ -1,11 +1,12 @@
 Package: sentinelreadr
 Type: Package
 Title: Read RSNTL Files And Convert XML To Data Tables
-Version: 0.1.0
+Version: 0.2.0
 Author: Pieta Schofield
 Maintainer: Pieta Schofield <pieta.schofield@me.com>
 Description: This package is intended to assist with the importation of data from the mixed
     binary and xml format files produced by the Sentinel ambulatory heart monitor
+    -- fix to limit patient details columns --
 License: CCL
 Encoding: UTF-8
 LazyData: true
@@ -24,4 +25,4 @@ Imports:
     stringr,
     XML,
     xml2
-RoxygenNote: 7.3.1
+RoxygenNote: 7.3.2

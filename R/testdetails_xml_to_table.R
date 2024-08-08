@@ -10,7 +10,9 @@
 #' @importFrom tibble as_tibble
 #'
 #' @export
-testdetails_xml_to_table <- function(xmlData,trans=F){
+testdetails_xml_to_table <- function(xmlData,trans=F,
+  necessary_cols=c("filename", "Patient DateOfBirth", "Patient Gender", "Patient FamilyName",
+                   "Patient GivenName", "Patient PatientNumber", "RecordingStartDateTime")){
   if(F){
     xmlData <- xml$test_details[[1]]
     trans <- T
@@ -49,6 +51,9 @@ testdetails_xml_to_table <- function(xmlData,trans=F){
   )
   other <- other %>% dplyr::filter(!itemname%in%c("Patient","StaffMembers","Facilities","RecorderDetails"))
   ret  <- dplyr::bind_rows(patient,staff,facilities,recorder,other) 
+  if(!is.null(necessary_cols)){
+    ret <- ret %>% dplyr::filter(itemname%in%necessary_cols)
+  }
   if(trans){
     col_names <- ret %>% dplyr::pull(itemname)
     ret <- ret %>% dplyr::select(values) %>% t()

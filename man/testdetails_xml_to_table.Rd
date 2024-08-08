@@ -4,7 +4,13 @@
 \alias{testdetails_xml_to_table}
 \title{patient test details to table}
 \usage{
-testdetails_xml_to_table(xmlData, trans = F)
+testdetails_xml_to_table(
+  xmlData,
+  trans = F,
+  necessary_cols = c("filename", "Patient DateOfBirth", "Patient Gender",
+    "Patient FamilyName", "Patient GivenName", "Patient PatientNumber",
+    "RecordingStartDateTime")
+)
 }
 \arguments{
 \item{xmlData}{the xml data to parse}
